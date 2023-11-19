@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import type { CategoryCardProps } from '~/components/ui/CategoryCard/types'
+
+defineProps<CategoryCardProps>()
+</script>
+
 <template>
   <NuxtLazyHydrate when-visible>
     <div
@@ -33,9 +39,3 @@
     </div>
   </NuxtLazyHydrate>
 </template>
-
-<script setup lang="ts">
-import type { CategoryCardProps } from '~/components/ui/CategoryCard/types';
-
-defineProps<CategoryCardProps>();
-</script>

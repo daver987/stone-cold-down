@@ -1,2 +1,2 @@
-export * from './useCustomerOrder';
-export * from './types';
+export * from './useCustomerOrder'
+export * from './types'

@@ -1,4 +1,4 @@
 export type AccountDataProps = {
-  header: string;
-  buttonText: string;
-};
+  header: string
+  buttonText: string
+}

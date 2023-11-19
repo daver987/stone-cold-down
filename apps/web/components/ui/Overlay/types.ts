@@ -1,3 +1,3 @@
 export interface OverlayProps {
-  visible?: boolean;
+  visible?: boolean
 }

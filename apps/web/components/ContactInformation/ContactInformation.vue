@@ -1,8 +1,23 @@
+<script lang="ts" setup>
+import { SfButton, SfIconClose, useDisclosure } from '@storefront-ui/vue'
+
+const { isOpen, open, close } = useDisclosure()
+const cart = ref({
+  customerEmail: '',
+})
+</script>
 <template>
   <div data-testid="contact-information" class="md:px-4 py-6">
     <div class="flex justify-between items-center">
-      <h2 class="text-neutral-900 text-lg font-bold mb-4">{{ $t('contactInfo.heading') }}</h2>
-      <SfButton v-if="cart.customerEmail" size="sm" variant="tertiary" @click="open">
+      <h2 class="text-neutral-900 text-lg font-bold mb-4">
+        {{ $t('contactInfo.heading') }}
+      </h2>
+      <SfButton
+        v-if="cart.customerEmail"
+        size="sm"
+        variant="tertiary"
+        @click="open"
+      >
         {{ $t('contactInfo.edit') }}
       </SfButton>
     </div>
@@ -24,10 +39,18 @@
       aria-labelledby="contact-modal-title"
     >
       <header>
-        <SfButton square variant="tertiary" class="absolute right-2 top-2" @click="close">
+        <SfButton
+          square
+          variant="tertiary"
+          class="absolute right-2 top-2"
+          @click="close"
+        >
           <SfIconClose />
         </SfButton>
-        <h3 id="contact-modal-title" class="text-neutral-900 text-lg md:text-2xl font-bold mb-4">
+        <h3
+          id="contact-modal-title"
+          class="text-neutral-900 text-lg md:text-2xl font-bold mb-4"
+        >
           {{ $t('contactInfo.heading') }}
         </h3>
       </header>
@@ -35,11 +58,3 @@
     </UiModal>
   </div>
 </template>
-<script lang="ts" setup>
-import { SfButton, SfIconClose, useDisclosure } from '@storefront-ui/vue';
-
-const { isOpen, open, close } = useDisclosure();
-const cart = ref({
-  customerEmail: '',
-});
-</script>

@@ -1,7 +1,28 @@
+<script setup lang="ts">
+import { SfButton, SfIconTune, useDisclosure } from '@storefront-ui/vue'
+import { whenever } from '@vueuse/core'
+import type { CategoryPageContentProps } from '~/components/CategoryPageContent/types'
+
+withDefaults(defineProps<CategoryPageContentProps>(), {
+  itemsPerPage: 24,
+})
+
+const { isOpen, open, close } = useDisclosure()
+const { isTablet, isDesktop } = useBreakpoints()
+
+const maxVisiblePages = computed(() => (isDesktop.value ? 5 : 1))
+
+whenever(isTablet, close)
+</script>
+
 <template>
   <NarrowContainer>
     <div class="mb-20 px-4 md:px-0" data-testid="category-layout">
-      <h1 class="my-10 font-bold typography-headline-3 md:typography-headline-2">{{ title }}</h1>
+      <h1
+        class="my-10 font-bold typography-headline-3 md:typography-headline-2"
+      >
+        {{ title }}
+      </h1>
       <div class="md:flex gap-6" data-testid="category-page-content">
         <CategorySidebar :is-open="isOpen" @close="close">
           <NuxtLazyHydrate when-visible>
@@ -13,7 +34,11 @@
             <span class="font-bold font-headings md:text-lg">
               {{ $t('numberOfProducts', { count: totalProducts }) }}
             </span>
-            <SfButton @click="open" variant="tertiary" class="md:hidden whitespace-nowrap">
+            <SfButton
+              @click="open"
+              variant="tertiary"
+              class="md:hidden whitespace-nowrap"
+            >
               <template #prefix>
                 <SfIconTune />
               </template>
@@ -27,7 +52,9 @@
           >
             <NuxtLazyHydrate
               when-visible
-              v-for="({ id, name, rating, price, primaryImage, slug }, index) in products"
+              v-for="(
+                { id, name, rating, price, primaryImage, slug }, index
+              ) in products"
               :key="id"
             >
               <UiProductCard
@@ -55,20 +82,3 @@
     </div>
   </NarrowContainer>
 </template>
-
-<script setup lang="ts">
-import { SfButton, SfIconTune, useDisclosure } from '@storefront-ui/vue';
-import { whenever } from '@vueuse/core';
-import type { CategoryPageContentProps } from '~/components/CategoryPageContent/types';
-
-withDefaults(defineProps<CategoryPageContentProps>(), {
-  itemsPerPage: 24,
-});
-
-const { isOpen, open, close } = useDisclosure();
-const { isTablet, isDesktop } = useBreakpoints();
-
-const maxVisiblePages = computed(() => (isDesktop.value ? 5 : 1));
-
-whenever(isTablet, close);
-</script>

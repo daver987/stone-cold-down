@@ -1,3 +1,14 @@
+<script setup lang="ts">
+definePageMeta({
+  layout: false,
+})
+
+const { query } = useRoute()
+const { fetchProducts, data: productsCatalog } = useProducts()
+
+await fetchProducts()
+</script>
+
 <template>
   <NuxtLayout name="default">
     <CategoryPageContent
@@ -13,14 +24,3 @@
     </CategoryPageContent>
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: false,
-});
-
-const { query } = useRoute();
-const { fetchProducts, data: productsCatalog } = useProducts();
-
-await fetchProducts();
-</script>

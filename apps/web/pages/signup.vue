@@ -1,6 +1,33 @@
+<script setup lang="ts">
+import {
+  SfButton,
+  SfInput,
+  SfCheckbox,
+  SfLink,
+  useDisclosure,
+} from '@storefront-ui/vue'
+
+definePageMeta({
+  layout: false,
+})
+
+const { isOpen, open } = useDisclosure()
+
+const firstNameModel = ref('')
+const lastNameModel = ref('')
+const emailModel = ref('')
+const passwordModel = ref('')
+const termsAndConditionsModel = ref<boolean>()
+const subscriptionsModel = ref<boolean>()
+const NuxtLink = resolveComponent('NuxtLink')
+</script>
+
 <template>
   <NuxtLayout name="auth" :heading="$t('auth.signup.heading')">
-    <UiAlert class="w-full p-4 md:p-6 mb-6 !justify-start typography-text-base" variant="neutral">
+    <UiAlert
+      class="w-full p-4 md:p-6 mb-6 !justify-start typography-text-base"
+      variant="neutral"
+    >
       <i18n-t keypath="auth.signup.bannerText">
         <template #login>
           <SfLink
@@ -22,26 +49,55 @@
     >
       <label>
         <UiFormLabel>{{ $t('form.firstNameLabel') }} *</UiFormLabel>
-        <SfInput name="firstName" autocomplete="given-name" v-model="firstNameModel" required />
+        <SfInput
+          name="firstName"
+          autocomplete="given-name"
+          v-model="firstNameModel"
+          required
+        />
       </label>
       <label>
         <UiFormLabel>{{ $t('form.lastNameLabel') }} *</UiFormLabel>
-        <SfInput name="lastName" autocomplete="family-name" v-model="lastNameModel" required />
+        <SfInput
+          name="lastName"
+          autocomplete="family-name"
+          v-model="lastNameModel"
+          required
+        />
       </label>
       <label>
         <UiFormLabel>{{ $t('form.emailLabel') }} *</UiFormLabel>
-        <SfInput name="email" type="email" autocomplete="email" v-model="emailModel" required />
+        <SfInput
+          name="email"
+          type="email"
+          autocomplete="email"
+          v-model="emailModel"
+          required
+        />
       </label>
       <div>
         <label>
           <UiFormLabel>{{ $t('form.passwordLabel') }} *</UiFormLabel>
-          <UiFormPasswordInput name="password" autocomplete="current-password" v-model="passwordModel" required />
-          <UiFormHelperText class="mb-2">{{ $t('form.passwordHint') }}</UiFormHelperText>
+          <UiFormPasswordInput
+            name="password"
+            autocomplete="current-password"
+            v-model="passwordModel"
+            required
+          />
+          <UiFormHelperText class="mb-2">{{
+            $t('form.passwordHint')
+          }}</UiFormHelperText>
         </label>
       </div>
 
       <div class="flex items-center">
-        <SfCheckbox id="terms" v-model="termsAndConditionsModel" value="value" class="peer" required />
+        <SfCheckbox
+          id="terms"
+          v-model="termsAndConditionsModel"
+          value="value"
+          class="peer"
+          required
+        />
         <label
           class="ml-3 text-base text-neutral-900 cursor-pointer font-body peer-disabled:text-disabled-900"
           for="terms"
@@ -61,7 +117,12 @@
       </div>
 
       <div class="flex mb-2">
-        <SfCheckbox id="subscription" v-model="subscriptionsModel" value="value" class="peer mt-0.5" />
+        <SfCheckbox
+          id="subscription"
+          v-model="subscriptionsModel"
+          value="value"
+          class="peer mt-0.5"
+        />
         <label
           class="ml-3 text-base text-neutral-900 cursor-pointer font-body peer-disabled:text-disabled-900"
           for="subscription"
@@ -70,7 +131,9 @@
         </label>
       </div>
 
-      <p class="text-sm text-neutral-500 mt-0.5 mb-2">{{ $t('form.asterixHint') }}</p>
+      <p class="text-sm text-neutral-500 mt-0.5 mb-2">
+        {{ $t('form.asterixHint') }}
+      </p>
 
       <SfButton type="submit" size="lg" class="w-full">
         {{ $t('auth.signup.createButton') }}
@@ -94,12 +157,22 @@
           height="192"
           class="my-6"
         />
-        <h2 id="signUpModalTitle" class="mt-6 mb-4 font-bold typography-headline-3">
+        <h2
+          id="signUpModalTitle"
+          class="mt-6 mb-4 font-bold typography-headline-3"
+        >
           {{ $t('auth.signup.modal.heading') }}
         </h2>
       </header>
-      <UiAlert class="w-full p-4 mb-6 !justify-start typography-text-base" variant="neutral">
-        <i18n-t keypath="auth.signup.modal.description" tag="p" id="signUpModalDesc">
+      <UiAlert
+        class="w-full p-4 mb-6 !justify-start typography-text-base"
+        variant="neutral"
+      >
+        <i18n-t
+          keypath="auth.signup.modal.description"
+          tag="p"
+          id="signUpModalDesc"
+        >
           <template #information>
             <SfLink
               :tag="NuxtLink"
@@ -120,21 +193,3 @@
     </UiModal>
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-import { SfButton, SfInput, SfCheckbox, SfLink, useDisclosure } from '@storefront-ui/vue';
-
-definePageMeta({
-  layout: false,
-});
-
-const { isOpen, open } = useDisclosure();
-
-const firstNameModel = ref('');
-const lastNameModel = ref('');
-const emailModel = ref('');
-const passwordModel = ref('');
-const termsAndConditionsModel = ref<boolean>();
-const subscriptionsModel = ref<boolean>();
-const NuxtLink = resolveComponent('NuxtLink');
-</script>

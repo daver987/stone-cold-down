@@ -1,8 +1,31 @@
+<script setup lang="ts">
+import { SfButton } from '@storefront-ui/vue'
+import type { AccountFormsPasswordProps } from '~/components/AccountForms/types'
+
+const props = defineProps<AccountFormsPasswordProps>()
+defineEmits(['on-save', 'on-cancel'])
+
+const { oldPassword, firstNewPassword, secondNewPassword, username } =
+  toRefs(props)
+const userPasswords = ref({
+  oldPassword: oldPassword?.value ?? '',
+  firstNewPassword: firstNewPassword?.value ?? '',
+  secondNewPassword: secondNewPassword?.value ?? '',
+})
+</script>
 <template>
   <form @submit.prevent="$emit('on-save')" data-testid="account-forms-password">
-    <input type="text" autocomplete="username" name="username" :value="username" class="hidden" />
+    <input
+      type="text"
+      autocomplete="username"
+      name="username"
+      :value="username"
+      class="hidden"
+    />
     <label class="block">
-      <UiFormLabel>{{ $t('account.accountSettings.personalData.currentPassword') }}</UiFormLabel>
+      <UiFormLabel>{{
+        $t('account.accountSettings.personalData.currentPassword')
+      }}</UiFormLabel>
       <UiFormPasswordInput
         name="password"
         autocomplete="current-password"
@@ -11,17 +34,25 @@
       />
     </label>
     <label class="block my-4">
-      <UiFormLabel>{{ $t('account.accountSettings.personalData.newPassword') }}</UiFormLabel>
+      <UiFormLabel>{{
+        $t('account.accountSettings.personalData.newPassword')
+      }}</UiFormLabel>
       <UiFormPasswordInput
         name="password"
         autocomplete="new-password"
         v-model="userPasswords.firstNewPassword"
         required
       />
-      <UiFormHelperText class="block"> {{ $t('account.accountSettings.personalData.passwordHelp') }}</UiFormHelperText>
+      <UiFormHelperText class="block">
+        {{
+          $t('account.accountSettings.personalData.passwordHelp')
+        }}</UiFormHelperText
+      >
     </label>
     <label class="block">
-      <UiFormLabel>{{ $t('account.accountSettings.personalData.newPasswordAgain') }}</UiFormLabel>
+      <UiFormLabel>{{
+        $t('account.accountSettings.personalData.newPasswordAgain')
+      }}</UiFormLabel>
       <UiFormPasswordInput
         name="password"
         autocomplete="new-password"
@@ -39,17 +70,3 @@
     </div>
   </form>
 </template>
-<script setup lang="ts">
-import { SfButton } from '@storefront-ui/vue';
-import type { AccountFormsPasswordProps } from '~/components/AccountForms/types';
-
-const props = defineProps<AccountFormsPasswordProps>();
-defineEmits(['on-save', 'on-cancel']);
-
-const { oldPassword, firstNewPassword, secondNewPassword, username } = toRefs(props);
-const userPasswords = ref({
-  oldPassword: oldPassword?.value ?? '',
-  firstNewPassword: firstNewPassword?.value ?? '',
-  secondNewPassword: secondNewPassword?.value ?? '',
-});
-</script>

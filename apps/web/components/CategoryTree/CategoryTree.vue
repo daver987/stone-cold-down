@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { SfIconArrowBack } from '@storefront-ui/vue'
+import type { CategoryTreeProps } from '~/components/CategoryTree/types'
+
+defineProps<CategoryTreeProps>()
+</script>
+
 <template>
   <div
     class="py-2 px-4 mb-4 bg-neutral-100 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest md:rounded-md"
@@ -6,7 +13,11 @@
     {{ $t('category') }}
   </div>
   <template v-if="parent">
-    <CategoryTreeItem :name="parent.name" :href="parent.href" :count="parent.count">
+    <CategoryTreeItem
+      :name="parent.name"
+      :href="parent.href"
+      :count="parent.count"
+    >
       <SfIconArrowBack size="sm" class="text-neutral-500 mr-2" />
     </CategoryTreeItem>
   </template>
@@ -21,10 +32,3 @@
     />
   </ul>
 </template>
-
-<script setup lang="ts">
-import { SfIconArrowBack } from '@storefront-ui/vue';
-import type { CategoryTreeProps } from '~/components/CategoryTree/types';
-
-defineProps<CategoryTreeProps>();
-</script>

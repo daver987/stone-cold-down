@@ -16,7 +16,10 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', href: '/favicon.ico' },
-        { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon-180x180.png' },
+        {
+          rel: 'apple-touch-icon',
+          href: '/icons/apple-touch-icon-180x180.png',
+        },
       ],
     },
   },
@@ -77,15 +80,24 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
   },
   routeRules: {
-    '/_ipx/**': { headers: { 'cache-control': `public, max-age=31536000, immutable` } },
-    '/icons/**': { headers: { 'cache-control': `public, max-age=31536000, immutable` } },
-    '/favicon.ico': { headers: { 'cache-control': `public, max-age=31536000, immutable` } },
+    '/_ipx/**': {
+      headers: { 'cache-control': `public, max-age=31536000, immutable` },
+    },
+    '/icons/**': {
+      headers: { 'cache-control': `public, max-age=31536000, immutable` },
+    },
+    '/favicon.ico': {
+      headers: { 'cache-control': `public, max-age=31536000, immutable` },
+    },
   },
   pwa: {
     registerType: 'autoUpdate',
     workbox: {
       navigateFallback: null,
-      globPatterns: ['**/*.{js,json,css,html,ico,svg,png,webp,ico,woff,woff2,ttf,eit,otf}', 'icons/*'],
+      globPatterns: [
+        '**/*.{js,json,css,html,ico,svg,png,webp,ico,woff,woff2,ttf,eit,otf}',
+        'icons/*',
+      ],
       globIgnores: ['manifest**.webmanifest'],
       additionalManifestEntries: [
         {
@@ -132,4 +144,4 @@ export default defineNuxtConfig({
     },
     registerWebManifestInRouteRules: true,
   },
-});
+})

@@ -3,11 +3,11 @@
  * Used in layouts. Title can be changed in pages through the `useHead` composable.
  */
 export const usePageTitle = () => {
-  const { titleSuffix } = useAppConfig();
+  const { titleSuffix } = useAppConfig()
 
   useHead({
     titleTemplate: (titleChunk) => {
-      return titleChunk ? `${titleChunk} | ${titleSuffix}` : titleSuffix;
+      return titleChunk ? `${titleChunk} | ${titleSuffix}` : titleSuffix
     },
-  });
-};
+  })
+}

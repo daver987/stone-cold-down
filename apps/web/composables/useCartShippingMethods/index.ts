@@ -1,1 +1,1 @@
-export * from './useCartShippingMethods';
+export * from './useCartShippingMethods'

@@ -1,2 +1,2 @@
-export * from './useProductReviews';
-export * from './types';
+export * from './useProductReviews'
+export * from './types'

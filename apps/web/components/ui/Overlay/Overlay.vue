@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import type { OverlayProps } from '~/components/ui/Overlay/types'
+
+defineProps<OverlayProps>()
+</script>
 <template>
   <div
     v-if="visible"
@@ -7,8 +12,3 @@
     <slot />
   </div>
 </template>
-<script setup lang="ts">
-import type { OverlayProps } from '~/components/ui/Overlay/types';
-
-defineProps<OverlayProps>();
-</script>

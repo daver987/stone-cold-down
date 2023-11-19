@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { SfScrollable } from '@storefront-ui/vue'
+import type { ProductSliderProps } from '~/components/ProductSlider/types'
+
+defineProps<ProductSliderProps>()
+</script>
+
 <template>
   <SfScrollable
     buttons-placement="floating"
@@ -19,10 +26,3 @@
     />
   </SfScrollable>
 </template>
-
-<script setup lang="ts">
-import { SfScrollable } from '@storefront-ui/vue';
-import type { ProductSliderProps } from '~/components/ProductSlider/types';
-
-defineProps<ProductSliderProps>();
-</script>

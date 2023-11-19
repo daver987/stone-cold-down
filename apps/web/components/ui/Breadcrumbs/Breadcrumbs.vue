@@ -1,9 +1,39 @@
+<script setup lang="ts">
+import {
+  SfDropdown,
+  SfButton,
+  SfLink,
+  SfIconMoreHoriz,
+} from '@storefront-ui/vue'
+import type { BreadcrumbsProps } from '~/components/ui/Breadcrumbs/types'
+
+defineProps<BreadcrumbsProps>()
+
+const dropdownOpened = ref(false)
+const close = () => {
+  dropdownOpened.value = false
+}
+const toggle = () => {
+  dropdownOpened.value = !dropdownOpened.value
+}
+
+const NuxtLink = resolveComponent('NuxtLink')
+</script>
+
 <template>
-  <nav data-testid="breadcrumbs" class="inline-flex items-center text-sm font-normal font-body">
+  <nav
+    data-testid="breadcrumbs"
+    class="inline-flex items-center text-sm font-normal font-body"
+  >
     <ol class="flex w-auto leading-none group md:flex-wrap">
       <li class="flex items-center sm:hidden text-neutral-500 z-10">
         <NuxtLazyHydrate :on-interaction="['click', 'touchstart']">
-          <SfDropdown v-model="dropdownOpened" strategy="absolute" placement="bottom-start" @update:model-value="close">
+          <SfDropdown
+            v-model="dropdownOpened"
+            strategy="absolute"
+            placement="bottom-start"
+            @update:model-value="close"
+          >
             <template #trigger>
               <SfButton
                 class="relative w-5 h-5 !p-0 rounded-sm outline-secondary-600 hover:bg-transparent active:bg-transparent"
@@ -21,8 +51,15 @@
                 </template>
               </SfButton>
             </template>
-            <ol class="px-4 py-2 rounded-md shadow-md border-neutral-100 bg-white" data-testid="breadcrumbs-dropdown">
-              <li v-for="item in breadcrumbs" :key="item.name" class="py-2 last-of-type:hidden">
+            <ol
+              class="px-4 py-2 rounded-md shadow-md border-neutral-100 bg-white"
+              data-testid="breadcrumbs-dropdown"
+            >
+              <li
+                v-for="item in breadcrumbs"
+                :key="item.name"
+                class="py-2 last-of-type:hidden"
+              >
                 <SfLink
                   :tag="NuxtLink"
                   :to="item.link"
@@ -57,20 +94,3 @@
     </ol>
   </nav>
 </template>
-
-<script setup lang="ts">
-import { SfDropdown, SfButton, SfLink, SfIconMoreHoriz } from '@storefront-ui/vue';
-import type { BreadcrumbsProps } from '~/components/ui/Breadcrumbs/types';
-
-defineProps<BreadcrumbsProps>();
-
-const dropdownOpened = ref(false);
-const close = () => {
-  dropdownOpened.value = false;
-};
-const toggle = () => {
-  dropdownOpened.value = !dropdownOpened.value;
-};
-
-const NuxtLink = resolveComponent('NuxtLink');
-</script>

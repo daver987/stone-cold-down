@@ -1,3 +1,9 @@
+<script setup lang="ts">
+definePageMeta({
+  layout: false,
+})
+</script>
+
 <template>
   <NuxtLayout
     name="checkout"
@@ -9,9 +15,3 @@
     <CartPageContent />
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: false,
-});
-</script>

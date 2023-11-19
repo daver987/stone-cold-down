@@ -10,7 +10,7 @@ export enum TagSize {
 }
 
 export interface TagProps {
-  size?: `${TagSize}`;
-  strong?: boolean;
-  variant?: `${TagVariant}`;
+  size?: `${TagSize}`
+  strong?: boolean
+  variant?: `${TagVariant}`
 }

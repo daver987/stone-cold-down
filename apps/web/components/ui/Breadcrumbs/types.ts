@@ -1,8 +1,8 @@
 export type Breadcrumb = {
-  name: string;
-  link: string;
-};
+  name: string
+  link: string
+}
 
 export type BreadcrumbsProps = {
-  breadcrumbs: Breadcrumb[];
-};
+  breadcrumbs: Breadcrumb[]
+}

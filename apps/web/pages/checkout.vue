@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { SfButton, SfLink } from '@storefront-ui/vue'
+import { PaymentMethod } from '~/components/CheckoutPayment/types'
+
+definePageMeta({
+  layout: false,
+})
+
+const { data: cart } = useCart()
+const { data: shippingMethods, getShippingMethods } = useCartShippingMethods()
+
+await getShippingMethods()
+
+const activePayment = ref<PaymentMethod>(PaymentMethod.CreditCard)
+const NuxtLink = resolveComponent('NuxtLink')
+</script>
+
 <template>
   <NuxtLayout
     name="checkout"
@@ -29,11 +46,23 @@
         <UiDivider class-name="w-screen md:w-auto -mx-4 md:mx-0" />
         <ShippingMethod :shipping-methods="shippingMethods" />
         <UiDivider class="w-screen md:w-auto -mx-4 md:mx-0" />
-        <CheckoutPayment :active-payment="activePayment" @update:active-payment="activePayment = $event" />
+        <CheckoutPayment
+          :active-payment="activePayment"
+          @update:active-payment="activePayment = $event"
+        />
         <UiDivider class="w-screen md:w-auto -mx-4 md:mx-0 mb-10" />
       </div>
-      <OrderSummary v-if="cart" :cart="cart" class="col-span-5 md:sticky md:top-20 h-fit">
-        <SfButton :tag="NuxtLink" :to="paths.orderSuccess" size="lg" class="w-full mb-4 md:mb-0">
+      <OrderSummary
+        v-if="cart"
+        :cart="cart"
+        class="col-span-5 md:sticky md:top-20 h-fit"
+      >
+        <SfButton
+          :tag="NuxtLink"
+          :to="paths.orderSuccess"
+          size="lg"
+          class="w-full mb-4 md:mb-0"
+        >
           {{ $t('placeOrder') }}
         </SfButton>
         <p class="text-sm text-center mt-4 pb-4 md:pb-0">
@@ -60,20 +89,3 @@
     </div>
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-import { SfButton, SfLink } from '@storefront-ui/vue';
-import { PaymentMethod } from '~/components/CheckoutPayment/types';
-
-definePageMeta({
-  layout: false,
-});
-
-const { data: cart } = useCart();
-const { data: shippingMethods, getShippingMethods } = useCartShippingMethods();
-
-await getShippingMethods();
-
-const activePayment = ref<PaymentMethod>(PaymentMethod.CreditCard);
-const NuxtLink = resolveComponent('NuxtLink');
-</script>

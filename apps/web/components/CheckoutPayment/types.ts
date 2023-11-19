@@ -6,7 +6,10 @@ export enum PaymentMethod {
 }
 
 export type CheckoutPaymentProps = {
-  activePayment: string;
-};
+  activePayment: string
+}
 
-export type CheckoutPaymentEmits = (event: 'update:activePayment', parameter: PaymentMethod) => void;
+export type CheckoutPaymentEmits = (
+  event: 'update:activePayment',
+  parameter: PaymentMethod
+) => void

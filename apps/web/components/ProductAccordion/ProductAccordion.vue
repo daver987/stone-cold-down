@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import type { ProductAccordionPropsType } from '~/components/ProductAccordion/types'
+
+const props = defineProps<ProductAccordionPropsType>()
+
+const { product } = toRefs(props)
+const { data: productReviews, fetchProductReviews } = useProductReviews(
+  product.value.slug
+)
+
+const productDetailsOpen = ref(true)
+
+fetchProductReviews(product.value.slug)
+</script>
+
 <template>
   <div data-testid="product-accordion">
     <UiAccordionItem
@@ -20,20 +35,12 @@
           {{ $t('customerReviews') }}
         </h2>
       </template>
-      <UiReview v-for="review in productReviews" :key="review.id" :review="review" class="mb-4" />
+      <UiReview
+        v-for="review in productReviews"
+        :key="review.id"
+        :review="review"
+        class="mb-4"
+      />
     </UiAccordionItem>
   </div>
 </template>
-
-<script setup lang="ts">
-import type { ProductAccordionPropsType } from '~/components/ProductAccordion/types';
-
-const props = defineProps<ProductAccordionPropsType>();
-
-const { product } = toRefs(props);
-const { data: productReviews, fetchProductReviews } = useProductReviews(product.value.slug);
-
-const productDetailsOpen = ref(true);
-
-fetchProductReviews(product.value.slug);
-</script>

@@ -7,4 +7,4 @@ export default {
   city: 'Colonie',
   state: 'NY',
   postalCode: '12205',
-};
+}

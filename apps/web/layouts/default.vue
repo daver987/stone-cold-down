@@ -1,3 +1,64 @@
+<script setup lang="ts">
+import {
+  SfBadge,
+  SfButton,
+  SfIconExpandMore,
+  SfIconShoppingCart,
+  SfIconClose,
+  SfIconSearch,
+  SfIconPerson,
+  SfDropdown,
+  SfListItem,
+  SfModal,
+  useDisclosure,
+} from '@storefront-ui/vue'
+import { DefaultLayoutProps } from '~/layouts/types'
+
+defineProps<DefaultLayoutProps>()
+
+const { isOpen: isAccountDropdownOpen, toggle: accountDropdownToggle } =
+  useDisclosure()
+const {
+  isOpen: isSearchModalOpen,
+  open: searchModalOpen,
+  close: searchModalClose,
+} = useDisclosure()
+const { fetchCart, data: cart } = useCart()
+const { fetchCustomer, data: account } = useCustomer()
+
+fetchCart()
+fetchCustomer()
+usePageTitle()
+
+const cartLineItemsCount = computed(
+  () =>
+    cart.value?.lineItems.reduce(
+      (total, { quantity }) => total + quantity,
+      0
+    ) ?? 0
+)
+
+const accountDropdown = [
+  {
+    label: 'account.heading',
+    link: paths.account,
+  },
+  {
+    label: 'account.ordersAndReturns.section.myOrders',
+    link: paths.accountMyOrders,
+  },
+  {
+    label: 'account.ordersAndReturns.section.returns',
+    link: paths.accountReturns,
+  },
+  {
+    label: 'account.logout',
+    link: '/',
+  },
+]
+const NuxtLink = resolveComponent('NuxtLink')
+</script>
+
 <template>
   <UiNavbarTop filled>
     <SfButton
@@ -9,7 +70,9 @@
       <template #suffix>
         <SfIconExpandMore class="hidden lg:block" />
       </template>
-      <span class="hidden lg:flex whitespace-nowrap">{{ $t('allProductsLinkText') }}</span>
+      <span class="hidden lg:flex whitespace-nowrap">{{
+        $t('allProductsLinkText')
+      }}</span>
     </SfButton>
     <NuxtLazyHydrate when-visible>
       <UiSearch class="hidden md:block flex-1" />
@@ -48,7 +111,9 @@
               {{ account?.firstName }}
             </SfButton>
           </template>
-          <ul class="rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
+          <ul
+            class="rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2"
+          >
             <li v-for="{ label, link } in accountDropdown" :key="label">
               <template v-if="label === 'account.logout'">
                 <UiDivider class="my-2" />
@@ -107,10 +172,18 @@
       aria-labelledby="search-modal-title"
     >
       <header class="mb-4">
-        <SfButton square variant="tertiary" class="absolute right-4 top-2" @click="searchModalClose">
+        <SfButton
+          square
+          variant="tertiary"
+          class="absolute right-4 top-2"
+          @click="searchModalClose"
+        >
           <SfIconClose class="text-neutral-500" />
         </SfButton>
-        <h3 id="search-modal-title" class="absolute left-6 top-4 font-bold typography-headline-4 mb-4">
+        <h3
+          id="search-modal-title"
+          class="absolute left-6 top-4 font-bold typography-headline-4 mb-4"
+        >
           {{ $t('search') }}
         </h3>
       </header>
@@ -118,55 +191,3 @@
     </SfModal>
   </NuxtLazyHydrate>
 </template>
-
-<script setup lang="ts">
-import {
-  SfBadge,
-  SfButton,
-  SfIconExpandMore,
-  SfIconShoppingCart,
-  SfIconClose,
-  SfIconSearch,
-  SfIconPerson,
-  SfDropdown,
-  SfListItem,
-  SfModal,
-  useDisclosure,
-} from '@storefront-ui/vue';
-import { DefaultLayoutProps } from '~/layouts/types';
-
-defineProps<DefaultLayoutProps>();
-
-const { isOpen: isAccountDropdownOpen, toggle: accountDropdownToggle } = useDisclosure();
-const { isOpen: isSearchModalOpen, open: searchModalOpen, close: searchModalClose } = useDisclosure();
-const { fetchCart, data: cart } = useCart();
-const { fetchCustomer, data: account } = useCustomer();
-
-fetchCart();
-fetchCustomer();
-usePageTitle();
-
-const cartLineItemsCount = computed(
-  () => cart.value?.lineItems.reduce((total, { quantity }) => total + quantity, 0) ?? 0,
-);
-
-const accountDropdown = [
-  {
-    label: 'account.heading',
-    link: paths.account,
-  },
-  {
-    label: 'account.ordersAndReturns.section.myOrders',
-    link: paths.accountMyOrders,
-  },
-  {
-    label: 'account.ordersAndReturns.section.returns',
-    link: paths.accountReturns,
-  },
-  {
-    label: 'account.logout',
-    link: '/',
-  },
-];
-const NuxtLink = resolveComponent('NuxtLink');
-</script>

@@ -1,5 +1,5 @@
 export interface QuantitySelectorProps {
-  value?: number;
-  minValue?: number;
-  maxValue?: number;
+  value?: number
+  minValue?: number
+  maxValue?: number
 }

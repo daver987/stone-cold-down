@@ -12,7 +12,7 @@ module.exports = {
       ignoreStrings: true,
       ignoreUrls: true,
       ignoreTemplateLiterals: true,
-      ignoreHTMLAttributeValues: true
+      ignoreHTMLAttributeValues: true,
     }],
     'max-lines-per-function': 'off',
     'unicorn/no-keyword-prefix': ['error', { disallowedPrefixes: ['new', 'for'] }],
@@ -25,7 +25,7 @@ module.exports = {
     'vue/component-tags-order': [
       'error',
       {
-        order: ['template', 'script', 'style'],
+        order: ['script', 'template', 'style'],
       },
     ],
     'vue/multi-word-component-names': 'off',

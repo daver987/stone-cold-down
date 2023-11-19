@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { SfButton } from '@storefront-ui/vue'
+import type { DisplayProps } from '~/components/ui/Display/types'
+
+defineProps<DisplayProps>()
+
+const NuxtLink = resolveComponent('NuxtLink')
+</script>
+
 <template>
   <NuxtLazyHydrate when-visible>
     <div
@@ -18,14 +27,28 @@
             },
           ]"
         >
-          <div class="flex flex-1 flex-col justify-center items-center md:items-start p-6 lg:p-10 max-w-1/2">
-            <p :class="['uppercase typography-text-xs block font-bold tracking-widest', item.subtitleClass]">
+          <div
+            class="flex flex-1 flex-col justify-center items-center md:items-start p-6 lg:p-10 max-w-1/2"
+          >
+            <p
+              :class="[
+                'uppercase typography-text-xs block font-bold tracking-widest',
+                item.subtitleClass,
+              ]"
+            >
               {{ item.subtitle }}
             </p>
-            <h2 :class="['mb-4 mt-2 font-bold typography-headline-3', item.titleClass]">
+            <h2
+              :class="[
+                'mb-4 mt-2 font-bold typography-headline-3',
+                item.titleClass,
+              ]"
+            >
               {{ item.title }}
             </h2>
-            <p class="typography-text-base block text-center md:text-left mb-4">{{ item.description }}</p>
+            <p class="typography-text-base block text-center md:text-left mb-4">
+              {{ item.description }}
+            </p>
             <SfButton class="!bg-black" :tag="NuxtLink" :to="paths.category">
               {{ item.buttonText }}
             </SfButton>
@@ -44,12 +67,3 @@
     </div>
   </NuxtLazyHydrate>
 </template>
-
-<script setup lang="ts">
-import { SfButton } from '@storefront-ui/vue';
-import type { DisplayProps } from '~/components/ui/Display/types';
-
-defineProps<DisplayProps>();
-
-const NuxtLink = resolveComponent('NuxtLink');
-</script>

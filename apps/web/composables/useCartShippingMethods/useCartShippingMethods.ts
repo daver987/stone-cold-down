@@ -1,10 +1,10 @@
-import { toRefs } from '@vueuse/shared';
+import { toRefs } from '@vueuse/shared'
 import type {
   UseCartShippingMethodsState,
   UseCartShippingMethodsReturn,
   GetShippingMethods,
-} from '~/composables/useCartShippingMethods/types';
-import { useSdk } from '~/sdk';
+} from '~/composables/useCartShippingMethods/types'
+import { useSdk } from '~/sdk'
 
 /**
  * @description Composable for getting shipping methods.
@@ -13,10 +13,13 @@ import { useSdk } from '~/sdk';
  */
 
 export const useCartShippingMethods: UseCartShippingMethodsReturn = () => {
-  const state = useState<UseCartShippingMethodsState>('useCartSippingMethods', () => ({
-    data: null,
-    loading: false,
-  }));
+  const state = useState<UseCartShippingMethodsState>(
+    'useCartSippingMethods',
+    () => ({
+      data: null,
+      loading: false,
+    })
+  )
 
   /**
    * @description Function for fetching shipping methods.
@@ -25,16 +28,18 @@ export const useCartShippingMethods: UseCartShippingMethodsReturn = () => {
    */
 
   const getShippingMethods: GetShippingMethods = async () => {
-    state.value.loading = true;
-    const { data, error } = await useAsyncData(() => useSdk().commerce.getShippingMethods());
-    useHandleError(error.value);
-    state.value.data = data.value;
-    state.value.loading = false;
-    return data;
-  };
+    state.value.loading = true
+    const { data, error } = await useAsyncData(() =>
+      useSdk().commerce.getShippingMethods()
+    )
+    useHandleError(error.value)
+    state.value.data = data.value
+    state.value.loading = false
+    return data
+  }
 
   return {
     getShippingMethods,
     ...toRefs(state.value),
-  };
-};
+  }
+}

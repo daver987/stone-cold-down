@@ -1,10 +1,10 @@
-import { toRefs } from '@vueuse/shared';
+import { toRefs } from '@vueuse/shared'
 import type {
   UseProductReviews,
   UseProductReviewsState,
   FetchProductReviews,
-} from '~/composables/useProductReviews/types';
-import { useSdk } from '~/sdk';
+} from '~/composables/useProductReviews/types'
+import { useSdk } from '~/sdk'
 
 /**
  * @description Composable managing product reviews data
@@ -14,10 +14,13 @@ import { useSdk } from '~/sdk';
  * const { data, loading, fetchProductReviews } = useProductReviews('product-slug');
  */
 export const useProductReviews: UseProductReviews = (slug) => {
-  const state = useState<UseProductReviewsState>(`useProductReviews-${slug}`, () => ({
-    data: null,
-    loading: false,
-  }));
+  const state = useState<UseProductReviewsState>(
+    `useProductReviews-${slug}`,
+    () => ({
+      data: null,
+      loading: false,
+    })
+  )
 
   /** Function for fetching product reviews data
    * @param {string} slug Product slug
@@ -25,16 +28,18 @@ export const useProductReviews: UseProductReviews = (slug) => {
    * fetchProductReviews('product-slug');
    */
   const fetchProductReviews: FetchProductReviews = async (slug) => {
-    state.value.loading = true;
-    const { data, error } = await useAsyncData(() => useSdk().commerce.getProductReviews({ slug }));
-    useHandleError(error.value);
-    state.value.data = data.value;
-    state.value.loading = false;
-    return data;
-  };
+    state.value.loading = true
+    const { data, error } = await useAsyncData(() =>
+      useSdk().commerce.getProductReviews({ slug })
+    )
+    useHandleError(error.value)
+    state.value.data = data.value
+    state.value.loading = false
+    return data
+  }
 
   return {
     fetchProductReviews,
     ...toRefs(state.value),
-  };
-};
+  }
+}

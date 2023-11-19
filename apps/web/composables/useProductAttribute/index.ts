@@ -1,1 +1,1 @@
-export * from './useProductAttribute';
+export * from './useProductAttribute'

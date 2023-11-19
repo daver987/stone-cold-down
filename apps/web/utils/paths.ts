@@ -18,4 +18,4 @@ export const paths = {
   authSetNewPassword: '/set-new-password',
   authLogin: '/login',
   authSignup: '/signup',
-};
+}

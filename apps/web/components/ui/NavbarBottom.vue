@@ -1,5 +1,54 @@
+<script setup lang="ts">
+import {
+  SfButton,
+  SfBadge,
+  SfIconShoppingCart,
+  SfIconHome,
+  SfIconMenu,
+  SfIconPerson,
+} from '@storefront-ui/vue'
+
+const { t } = useI18n()
+const { data: cart } = useCart()
+
+const items = [
+  {
+    label: t('home'),
+    icon: SfIconHome,
+    link: paths.home,
+  },
+  {
+    label: t('products'),
+    icon: SfIconMenu,
+    link: paths.category,
+  },
+  {
+    label: t('cart'),
+    icon: SfIconShoppingCart,
+    link: paths.cart,
+  },
+  {
+    label: t('account.navBarBottomHeading'),
+    icon: SfIconPerson,
+    link: paths.account,
+  },
+]
+
+const cartLineItemsCount = computed(
+  () =>
+    cart.value?.lineItems.reduce(
+      (total, { quantity }) => total + quantity,
+      0
+    ) ?? 0
+)
+const NuxtLink = resolveComponent('NuxtLink')
+</script>
+
 <template>
-  <nav class="w-full fixed bottom-0 left-0 flex flex-row items-stretch md:hidden" data-testid="navbar-bottom">
+  <nav
+    class="w-full fixed bottom-0 left-0 flex flex-row items-stretch md:hidden"
+    data-testid="navbar-bottom"
+  >
     <SfButton
       v-for="{ label, icon, link } in items"
       :key="label"
@@ -26,38 +75,3 @@
     </SfButton>
   </nav>
 </template>
-
-<script setup lang="ts">
-import { SfButton, SfBadge, SfIconShoppingCart, SfIconHome, SfIconMenu, SfIconPerson } from '@storefront-ui/vue';
-
-const { t } = useI18n();
-const { data: cart } = useCart();
-
-const items = [
-  {
-    label: t('home'),
-    icon: SfIconHome,
-    link: paths.home,
-  },
-  {
-    label: t('products'),
-    icon: SfIconMenu,
-    link: paths.category,
-  },
-  {
-    label: t('cart'),
-    icon: SfIconShoppingCart,
-    link: paths.cart,
-  },
-  {
-    label: t('account.navBarBottomHeading'),
-    icon: SfIconPerson,
-    link: paths.account,
-  },
-];
-
-const cartLineItemsCount = computed(
-  () => cart.value?.lineItems.reduce((total, { quantity }) => total + quantity, 0) ?? 0,
-);
-const NuxtLink = resolveComponent('NuxtLink');
-</script>

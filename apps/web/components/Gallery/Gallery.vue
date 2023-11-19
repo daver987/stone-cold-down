@@ -1,5 +1,88 @@
+<script setup lang="ts">
+import type { ComponentPublicInstance } from 'vue'
+import { clamp, type SfScrollableOnScrollData } from '@storefront-ui/shared'
+import {
+  SfScrollable,
+  SfButton,
+  SfIconChevronLeft,
+  SfIconChevronRight,
+} from '@storefront-ui/vue'
+import type { SfImage } from '@vue-storefront/unified-data-model'
+import {
+  unrefElement,
+  useIntersectionObserver,
+  useTimeoutFn,
+} from '@vueuse/core'
+
+const props = defineProps<{
+  images: SfImage[]
+}>()
+
+const { isPending, start, stop } = useTimeoutFn(() => {}, 50)
+
+const thumbsReference = ref<HTMLElement>()
+const firstThumbReference = ref<HTMLButtonElement>()
+const lastThumbReference = ref<HTMLButtonElement>()
+const firstVisibleThumbnailIntersected = ref(true)
+const lastVisibleThumbnailIntersected = ref(true)
+const activeIndex = ref(0)
+
+const registerThumbsWatch = (
+  singleThumbReference: Ref<HTMLButtonElement | undefined>,
+  thumbnailIntersected: Ref<boolean>
+) => {
+  watch(
+    thumbsReference,
+    (reference) => {
+      if (reference) {
+        useIntersectionObserver(
+          singleThumbReference,
+          ([{ isIntersecting }]) => {
+            thumbnailIntersected.value = isIntersecting
+          },
+          {
+            root: unrefElement(reference),
+            rootMargin: '0px',
+            threshold: 1,
+          }
+        )
+      }
+    },
+    { immediate: true }
+  )
+}
+
+registerThumbsWatch(firstThumbReference, firstVisibleThumbnailIntersected)
+registerThumbsWatch(lastThumbReference, lastVisibleThumbnailIntersected)
+
+const onChangeIndex = (index: number) => {
+  stop()
+  activeIndex.value = clamp(index, 0, props.images.length - 1)
+  start()
+}
+const onScroll = ({ left, scrollWidth }: SfScrollableOnScrollData) => {
+  if (!isPending.value) {
+    onChangeIndex(Math.round(left / (scrollWidth / props.images.length)))
+  }
+}
+const assignReference = (
+  element: Element | ComponentPublicInstance | null,
+  index: number
+) => {
+  if (!element) return
+  if (index === props.images.length - 1) {
+    lastThumbReference.value = element as HTMLButtonElement
+  } else if (index === 0) {
+    firstThumbReference.value = element as HTMLButtonElement
+  }
+}
+</script>
+
 <template>
-  <div class="flex-col md:flex-row h-full flex relative scroll-smooth md:gap-4" data-testid="gallery">
+  <div
+    class="flex-col md:flex-row h-full flex relative scroll-smooth md:gap-4"
+    data-testid="gallery"
+  >
     <div
       class="after:block after:pt-[100%] flex-1 relative overflow-hidden w-full max-h-[600px]"
       data-testid="gallery-images"
@@ -71,7 +154,9 @@
           :aria-current="activeIndex === index"
           :aria-label="$t('gallery.thumb', index)"
           class="w-20 h-[88px] relative shrink-0 pb-1 border-b-4 snap-start cursor-pointer transition-colors flex-grow-0"
-          :class="[activeIndex === index ? 'border-primary-700' : 'border-transparent']"
+          :class="[
+            activeIndex === index ? 'border-primary-700' : 'border-transparent',
+          ]"
           @mouseover="onChangeIndex(index)"
           @focus="onChangeIndex(index)"
         >
@@ -110,78 +195,12 @@
           :aria-current="activeIndex === index"
           :aria-label="$t('gallery.thumb', index + 1)"
           class="relative shrink-0 pb-1 border-b-4 cursor-pointer transition-colors flex-grow"
-          :class="[activeIndex === index ? 'border-primary-700' : 'border-neutral-200']"
+          :class="[
+            activeIndex === index ? 'border-primary-700' : 'border-neutral-200',
+          ]"
           @click="onChangeIndex(index)"
         />
       </div>
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import type { ComponentPublicInstance } from 'vue';
-import { clamp, type SfScrollableOnScrollData } from '@storefront-ui/shared';
-import { SfScrollable, SfButton, SfIconChevronLeft, SfIconChevronRight } from '@storefront-ui/vue';
-import type { SfImage } from '@vue-storefront/unified-data-model';
-import { unrefElement, useIntersectionObserver, useTimeoutFn } from '@vueuse/core';
-
-const props = defineProps<{
-  images: SfImage[];
-}>();
-
-const { isPending, start, stop } = useTimeoutFn(() => {}, 50);
-
-const thumbsReference = ref<HTMLElement>();
-const firstThumbReference = ref<HTMLButtonElement>();
-const lastThumbReference = ref<HTMLButtonElement>();
-const firstVisibleThumbnailIntersected = ref(true);
-const lastVisibleThumbnailIntersected = ref(true);
-const activeIndex = ref(0);
-
-const registerThumbsWatch = (
-  singleThumbReference: Ref<HTMLButtonElement | undefined>,
-  thumbnailIntersected: Ref<boolean>,
-) => {
-  watch(
-    thumbsReference,
-    (reference) => {
-      if (reference) {
-        useIntersectionObserver(
-          singleThumbReference,
-          ([{ isIntersecting }]) => {
-            thumbnailIntersected.value = isIntersecting;
-          },
-          {
-            root: unrefElement(reference),
-            rootMargin: '0px',
-            threshold: 1,
-          },
-        );
-      }
-    },
-    { immediate: true },
-  );
-};
-
-registerThumbsWatch(firstThumbReference, firstVisibleThumbnailIntersected);
-registerThumbsWatch(lastThumbReference, lastVisibleThumbnailIntersected);
-
-const onChangeIndex = (index: number) => {
-  stop();
-  activeIndex.value = clamp(index, 0, props.images.length - 1);
-  start();
-};
-const onScroll = ({ left, scrollWidth }: SfScrollableOnScrollData) => {
-  if (!isPending.value) {
-    onChangeIndex(Math.round(left / (scrollWidth / props.images.length)));
-  }
-};
-const assignReference = (element: Element | ComponentPublicInstance | null, index: number) => {
-  if (!element) return;
-  if (index === props.images.length - 1) {
-    lastThumbReference.value = element as HTMLButtonElement;
-  } else if (index === 0) {
-    firstThumbReference.value = element as HTMLButtonElement;
-  }
-};
-</script>
